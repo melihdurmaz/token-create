@@ -1,44 +1,6 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/melih/Desktop/code/hardhat/aidefi/contracts/AIDEFIToken.sol": {
-      "lastModificationDate": 1754915876489,
-      "contentHash": "1c5125bb1be04eb10838ef8323fed486",
-      "sourceName": "contracts/AIDEFIToken.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "AIDEFIToken"
-      ]
-    },
     "/Users/melih/Desktop/code/hardhat/aidefi/node_modules/@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol": {
       "lastModificationDate": 1754915675979,
       "contentHash": "2343c0c3b51267f4f2639ec3f99cd63e",
@@ -755,10 +717,10 @@
         "IERC20Metadata"
       ]
     },
-    "/Users/melih/Desktop/code/hardhat/aidefi/contracts/Lock.sol": {
-      "lastModificationDate": 1754915658559,
-      "contentHash": "7eee587c347fe6b1de50c96688cb9477",
-      "sourceName": "contracts/Lock.sol",
+    "/Users/melih/Desktop/code/hardhat/aidefi/contracts/Token.sol": {
+      "lastModificationDate": 1754919426395,
+      "contentHash": "2e7fa493389ef72f190d52860b2792f7",
+      "sourceName": "contracts/Token.sol",
       "solcConfig": {
         "version": "0.8.28",
         "settings": {
@@ -783,12 +745,14 @@
           }
         }
       },
-      "imports": [],
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol"
+      ],
       "versionPragmas": [
-        "^0.8.28"
+        "^0.8.0"
       ],
       "artifacts": [
-        "Lock"
+        "Token"
       ]
     }
   }
