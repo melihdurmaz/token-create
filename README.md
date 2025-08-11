@@ -41,6 +41,7 @@ npx hardhat
 ## 3. `hardhat.config.js` Dosyasını Düzenleme
 
 ```js
+require("dotenv").config();
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-etherscan");
 
@@ -48,17 +49,19 @@ module.exports = {
   solidity: "0.8.28",
   networks: {
     bscTestnet: {
-      url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
+      url: process.env.BSC_TESTNET_URL || "",
       chainId: 97,
-      accounts: ["PRIVATE_KEYİNİZ"],  // 0x olmadan yazın
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     },
   },
   etherscan: {
     apiKey: {
-      bscTestnet: "BSC_SCAN_API_KEYİNİZ",
+      bscTestnet: process.env.BSCSCAN_API_KEY || "",
+      bsc: process.env.BSCSCAN_API_KEY || "",
     },
   },
 };
+
 ```
 
 ---
@@ -90,16 +93,19 @@ contract AIDEFIToken is ERC20Permit {
 ## 5. `scripts/deploy.js` Dosyasını Oluşturma
 
 ```js
-const { ethers } = require("hardhat");
+const hre = require("hardhat");
 
 async function main() {
-  const [deployer] = await ethers.getSigners();
+  // Komut satırından argümanları alıyoruz:
+  // node deploy.js 1000000 v1
+  const args = process.argv.slice(2);
+  const initialSupply = args[0] || "1000000";  // default değer atadık
+  const version = args[1] || "v1";
 
-  console.log("Deploying contracts with account:", deployer.address);
+  console.log("Deploying with initialSupply:", initialSupply, "and version:", version);
 
-  const initialSupply = ethers.utils.parseUnits("1000000", 18);
-  const Token = await ethers.getContractFactory("AIDEFIToken");
-  const token = await Token.deploy(initialSupply, "v1");
+  const Token = await hre.ethers.getContractFactory("Token");
+  const token = await Token.deploy(initialSupply, version);
 
   await token.deployed();
 
@@ -108,7 +114,7 @@ async function main() {
 
 main()
   .then(() => process.exit(0))
-  .catch(error => {
+  .catch((error) => {
     console.error(error);
     process.exit(1);
   });
@@ -117,9 +123,20 @@ main()
 ---
 
 ## 6. Deploy İşlemi
+!!!deployden önce 
 
+    ```bash
+    npx hardhat compile
+    ```
+    bu komutu çalıştırın eğer daha önce compile ettiyseniz 
+    ```bash
+    rm -rf artifacts cache
+    npx hardhat compile
+    ```
+
+    daha sonra ise 
 ```bash
-npx hardhat run scripts/deploy.js --network bscTestnet
+npx hardhat run scripts/deploy.js --network bscTestnet 1000000 v1
 ```
 
 - Terminalde “Token deployed to: 0x...” şeklinde bir adres görmelisiniz

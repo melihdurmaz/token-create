@@ -1,9 +1,16 @@
 const hre = require("hardhat");
 
 async function main() {
-  const initialSupply = 1000000
+  // Komut satırından argümanları alıyoruz:
+  // node deploy.js 1000000 v1
+  const args = process.argv.slice(2);
+  const initialSupply = args[0] || "1000000";  // default değer atadık
+  const version = args[1] || "v1";
+
+  console.log("Deploying with initialSupply:", initialSupply, "and version:", version);
+
   const Token = await hre.ethers.getContractFactory("Token");
-  const token = await Token.deploy(initialSupply, "v1");
+  const token = await Token.deploy(initialSupply, version);
 
   await token.deployed();
 
